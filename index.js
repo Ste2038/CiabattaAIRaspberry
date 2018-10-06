@@ -13,6 +13,8 @@ var port = new SerialPort(Constants.ComName, {
   baudRate: Constants.ComBound
 });
 
+console.log(`Arduino Collegato su porta ${Constants.SerialPort}`);
+
 let AutorizedId = [];
 const ExStrategyBotDataPath = "./My files/ExtrategyBotData.json";
 const credenziali = {};
@@ -58,19 +60,18 @@ socket.on('ToDo', function(_ToDo){
   console.log('Todo: ' + _ToDo);
   ToDo = JSON.parse(_ToDo);
   if (Constants.SerAvailable){
-
+    port.open();
+    port.write(ToControl);
   }
+
+  console.log(ToControl);
 
   switch(ToDo){
     case "Accendi":
       if(!Rele[ToControl]){
           if (Constants.SerAvailable){
-            
-            port.write(ToControl);
             port.write("1");
-            port.close();
           }
-        console.log(ToControl);
         console.log("1");
         Rele[ToControl] = true;
       }
@@ -79,15 +80,16 @@ socket.on('ToDo', function(_ToDo){
     case "Spegni":
       if(Rele[ToControl]){
         if (Constants.SerAvailable){
-          port.open();
-          port.write(ToControl);
-          port.close();
+          port.write("0");
         }
-        console.log(ToControl);
         console.log("0");
         Rele[ToControl] = false;
       }
     break;
+  }
+
+  if (Constants.SerAvailable){
+    port.close();
   }
 });
 
