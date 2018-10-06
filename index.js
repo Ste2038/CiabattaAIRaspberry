@@ -61,9 +61,11 @@ socket.on('ToDo', function(_ToDo){
   ToDo = JSON.parse(_ToDo);
   if (Constants.SerAvailable){
     port.open();
+    port.write("0");
     port.write(ToControl);
   }
 
+  console.log("0");
   console.log(ToControl);
 
   switch(ToDo){
@@ -89,6 +91,7 @@ socket.on('ToDo', function(_ToDo){
   }
 
   if (Constants.SerAvailable){
+    port.write("9");
     port.close();
   }
 });
