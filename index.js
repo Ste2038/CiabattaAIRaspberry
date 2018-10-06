@@ -24,8 +24,6 @@ let Color,
     Todo,
     ToControl;
 
-let SerAvailable = false;
-
 let Rele = [8];
 for (let i = 0; i < 8; i++){
   Rele[i] = false;
@@ -59,12 +57,15 @@ socket.on('ToControl', function(_ToControl){
 socket.on('ToDo', function(_ToDo){
   console.log('Todo: ' + _ToDo);
   ToDo = JSON.parse(_ToDo);
+  if (Constants.SerAvailable){
+
+  }
 
   switch(ToDo){
     case "Accendi":
       if(!Rele[ToControl]){
-          if (SerAvailable){
-            port.open();
+          if (Constants.SerAvailable){
+            
             port.write(ToControl);
             port.write("1");
             port.close();
@@ -77,7 +78,7 @@ socket.on('ToDo', function(_ToDo){
 
     case "Spegni":
       if(Rele[ToControl]){
-        if (SerAvailable){
+        if (Constants.SerAvailable){
           port.open();
           port.write(ToControl);
           port.close();
