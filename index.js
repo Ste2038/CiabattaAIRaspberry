@@ -12,9 +12,8 @@ const option = {mode: 0o600};
 var port = new SerialPort(Constants.ComName, {
   baudRate: Constants.ComBound
 });
-port.open();
 
-console.log(`Arduino Collegato su porta ${Constants.SerialPort}`);
+console.log(`Arduino Collegato su porta ${JSON.stringify(Constants.SerialPort)}`);
 
 let AutorizedId = [];
 const ExStrategyBotDataPath = "./My files/ExtrategyBotData.json";
@@ -36,28 +35,29 @@ socket.on('ToControl', function(_ToControl){
   console.log('ToControl: ' + _ToControl);
   switch(JSON.parse(_ToControl)){
     case "Computer":
-      ToControl = 0;
+      ToControl = '0';
     break;
 
     case "Stereo":
-      ToControl = 1;
+      ToControl = '1';
     break;
 
     case "Led":
-      ToControl = 2;
+      ToControl = '2';
     break;
 
     case "Monitor":
-      ToControl = 3;
+      ToControl = '3';
     break;
 
     case "Stampante":
-      ToControl = 4;
+      ToControl = '4';
     break;
   }
 });
 
 socket.on('ToDo', function(_ToDo){
+  //port.open();
   console.log('Todo: ' + _ToDo);
   ToDo = JSON.parse(_ToDo);
 
@@ -65,27 +65,30 @@ socket.on('ToDo', function(_ToDo){
     case "Accendi":
       if(!Rele[ToControl]){
           if (Constants.SerAvailable){
-            port.write("0");
+            port.write('0');
             port.write(ToControl);
-            port.write("1");
-            port.write("9");
+            port.write('1');
+            port.write('9');
           }
         Rele[ToControl] = true;
+        
       }
     break;
 
     case "Spegni":
       if(Rele[ToControl]){
         if (Constants.SerAvailable){
-          port.write("0");
+          port.write('0');
           port.write(ToControl);
-          port.write("0");
-          port.write("9");
+          port.write('0');
+          port.write('9');
         }
         Rele[ToControl] = false;
       }
     break;
   }
+
+  //port.close();
 });
 
 socket.on('Modalita', function(_Modalita){
