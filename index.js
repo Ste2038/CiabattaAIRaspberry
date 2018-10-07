@@ -60,21 +60,15 @@ socket.on('ToControl', function(_ToControl){
 socket.on('ToDo', function(_ToDo){
   console.log('Todo: ' + _ToDo);
   ToDo = JSON.parse(_ToDo);
-  if (Constants.SerAvailable){
-    
-    port.write("0");
-    port.write(ToControl);
-
-    console.log("0");
-    console.log(ToControl);
-  }
 
   switch(ToDo){
     case "Accendi":
       if(!Rele[ToControl]){
           if (Constants.SerAvailable){
+            port.write("0");
+            port.write(ToControl);
             port.write("1");
-            console.log("1");
+            port.write("9");
           }
         Rele[ToControl] = true;
       }
@@ -84,16 +78,13 @@ socket.on('ToDo', function(_ToDo){
       if(Rele[ToControl]){
         if (Constants.SerAvailable){
           port.write("0");
-          console.log("0");
+          port.write(ToControl);
+          port.write("0");
+          port.write("9");
         }
         Rele[ToControl] = false;
       }
     break;
-  }
-
-  if (Constants.SerAvailable){
-    console.log("9");
-    port.write("9");
   }
 });
 
