@@ -90,6 +90,7 @@ socket.on('ToDo', function(_ToDo){
     break;
   }
 
+  console.log("9");
   if (Constants.SerAvailable){
     port.write("9");
     port.close();
