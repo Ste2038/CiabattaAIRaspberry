@@ -12,6 +12,7 @@ const option = {mode: 0o600};
 var port = new SerialPort(Constants.ComName, {
   baudRate: Constants.ComBound
 });
+port.open();
 
 console.log(`Arduino Collegato su porta ${Constants.SerialPort}`);
 
@@ -60,7 +61,7 @@ socket.on('ToDo', function(_ToDo){
   console.log('Todo: ' + _ToDo);
   ToDo = JSON.parse(_ToDo);
   if (Constants.SerAvailable){
-    port.open();
+    
     port.write("0");
     port.write(ToControl);
 
@@ -93,7 +94,6 @@ socket.on('ToDo', function(_ToDo){
   if (Constants.SerAvailable){
     console.log("9");
     port.write("9");
-    port.close();
   }
 });
 
