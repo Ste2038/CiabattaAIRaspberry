@@ -38,38 +38,19 @@ fs.readFile('./My/ReleConfig.json', 'utf8', function (err,data) {
     return console.log(err);
   }
   obj = JSON.parse(data);
-  console.log(obj[0]);
   obj1 = obj[0];
   ele = obj1[0];
-  dati = obj1[1];
 });
 
 socket.on('ToControl', function(_ToControl){
   console.log('ToControl: ' + _ToControl);
-
-  for (let i = 0, i < ele, i++)
-  if(_ToControl == obj1[0])
-  switch(JSON.parse(_ToControl)){
-    case "Computer":
-      ToControl = '0';
-    break;
-
-    case "Stereo":
-      ToControl = '1';
-    break;
-
-    case "Led":
-      ToControl = '2';
-    break;
-
-    case "Monitor":
-      ToControl = '3';
-    break;
-
-    case "Stampante":
-      ToControl = '4';
-    break;
+  for (let i = 1; i < ele; i++){
+    obj1 = obj[i];
+    if(JSON.parse(_ToControl) == obj1[0]){
+      ToControl = obj1[1];
+    }
   }
+  console.log(ToControl);
 });
 
 socket.on('ToDo', function(_ToDo){
@@ -87,7 +68,6 @@ socket.on('ToDo', function(_ToDo){
         }
         console.log("Serial: 0" + ToControl + "19");
         Rele[ToControl] = true;
-        
       }
     break;
 
