@@ -31,8 +31,24 @@ for (let i = 0; i < 8; i++){
   Rele[i] = false;
 }
 
+let obj, obj1, ele, dati;
+
+fs.readFile('./My/ReleConfig.json', 'utf8', function (err,data) {
+  if (err) {
+    return console.log(err);
+  }
+  obj = JSON.parse(data);
+  console.log(obj[0]);
+  obj1 = obj[0];
+  ele = obj1[0];
+  dati = obj1[1];
+});
+
 socket.on('ToControl', function(_ToControl){
   console.log('ToControl: ' + _ToControl);
+
+  for (let i = 0, i < ele, i++)
+  if(_ToControl == obj1[0])
   switch(JSON.parse(_ToControl)){
     case "Computer":
       ToControl = '0';
@@ -57,7 +73,6 @@ socket.on('ToControl', function(_ToControl){
 });
 
 socket.on('ToDo', function(_ToDo){
-  //port.open();
   console.log('Todo: ' + _ToDo);
   ToDo = JSON.parse(_ToDo);
 
@@ -65,11 +80,12 @@ socket.on('ToDo', function(_ToDo){
     case "Accendi":
       if(!Rele[ToControl]){
           if (Constants.SerAvailable){
-            port.write('0');
-            port.write(ToControl);
-            port.write('1');
-            port.write('9');
-          }
+          port.write('0');
+          port.write(ToControl);
+          port.write('1');
+          port.write('9');
+        }
+        console.log("Serial: 0" + ToControl + "19");
         Rele[ToControl] = true;
         
       }
@@ -83,12 +99,11 @@ socket.on('ToDo', function(_ToDo){
           port.write('0');
           port.write('9');
         }
+        console.log("Serial: 0" + ToControl + "09");
         Rele[ToControl] = false;
       }
     break;
   }
-
-  //port.close();
 });
 
 socket.on('Modalita', function(_Modalita){
