@@ -9,11 +9,12 @@ const option = {mode: 0o600};
 //const token = Constants.BotToken;
 //const bot = new TelegramBot(token, {polling: true});
 
-var port = new SerialPort(Constants.ComName, {
-  baudRate: Constants.ComBound
-});
-
-console.log(`Arduino Collegato su porta ${JSON.stringify(Constants.SerialPort)}`);
+if (Constants.SerAvailable){
+  var port = new SerialPort(Constants.ComName, {
+    baudRate: Constants.ComBound
+  });
+  console.log(`Arduino Collegato su porta ${JSON.stringify(Constants.SerialPort)}`);
+}
 
 let AutorizedId = [];
 const ExStrategyBotDataPath = "./My files/ExtrategyBotData.json";
@@ -24,63 +25,64 @@ const MasterID = Constants.AutorizedMasterID;
 let Color,
     Modalita,
     Todo,
-    ToControl;
+    ToControl,
+    ModToControl;
 
-let Rele = [8];
+let ReleStat = [8];
 for (let i = 0; i < 8; i++){
-  Rele[i] = false;
+  ReleStat[i] = false;
 }
 
-let obj, obj1, ele, dati;
+var ReleConfig, ReleData;
 
 fs.readFile('./My/ReleConfig.json', 'utf8', function (err,data) {
   if (err) {
     return console.log(err);
   }
-  obj = JSON.parse(data);
-  obj1 = obj[0];
-  ele = obj1[0];
+  ReleConfig = JSON.parse(data);
 });
-
+  
 socket.on('ToControl', function(_ToControl){
   console.log('ToControl: ' + _ToControl);
-  for (let i = 1; i < ele; i++){
-    obj1 = obj[i];
-    if(JSON.parse(_ToControl) == obj1[0]){
-      ToControl = obj1[1];
+  for (let i = 0; i < ReleConfig.length; i++){
+    ReleData = ReleConfig[i];
+    if(JSON.parse(_ToControl) == ReleData[0]){
+      ToControl = ReleData[1];
+      ModToControl = ReleData[2];
     }
   }
-  console.log(ToControl);
 });
 
 socket.on('ToDo', function(_ToDo){
   console.log('Todo: ' + _ToDo);
   ToDo = JSON.parse(_ToDo);
-
+  
   switch(ToDo){
     case "Accendi":
-      if(!Rele[ToControl]){
+      if(!ReleStat[ToControl]){
           if (Constants.SerAvailable){
           port.write('0');
           port.write(ToControl);
           port.write('1');
+          port.write(ModToControl);
           port.write('9');
         }
         console.log("Serial: 0" + ToControl + "19");
-        Rele[ToControl] = true;
+        ReleStat[ToControl] = true;
       }
     break;
 
     case "Spegni":
-      if(Rele[ToControl]){
+      if(ReleStat[ToControl]){
         if (Constants.SerAvailable){
           port.write('0');
           port.write(ToControl);
           port.write('0');
+          port.write(ModToControl);
           port.write('9');
         }
         console.log("Serial: 0" + ToControl + "09");
-        Rele[ToControl] = false;
+        ReleStat[ToControl] = false;
       }
     break;
   }
@@ -96,6 +98,8 @@ socket.on('Color', function(_Color){
   Color = JSON.parse(_Color);
 });
 
+/*
 port.on('error', function(err) {
   console.log('Error: ', err.message);
 })
+*/
