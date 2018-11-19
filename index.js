@@ -41,6 +41,11 @@ fs.readFile('./My/ReleConfig.json', 'utf8', function (err,data) {
   }
   ReleConfig = JSON.parse(data);
 });
+
+socket.on('Start', function(_Req){
+  console.log("a");
+  socket.emit('a');
+});
   
 socket.on('ToControl', function(_ToControl){
   console.log('ToControl: ' + _ToControl);
