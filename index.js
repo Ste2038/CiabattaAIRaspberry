@@ -73,7 +73,9 @@ socket.on('ToDo', function(_ToDo){
           port.write(ModToControl);
           port.write('9');
         }
-        //socket.emit("ciao", "ciao");
+
+        socket.emit("changeReleNum", ToControl);
+        socket.emit("changeRelStatus", '1');
         console.log("Serial: 0" + ToControl + "19");
         ReleStat[ToControl] = true;
       }
@@ -88,11 +90,20 @@ socket.on('ToDo', function(_ToDo){
           port.write(ModToControl);
           port.write('9');
         }
+
+        socket.emit("changeReleNum", ToControl);
+        socket.emit("changeRelStatus", '0');
         console.log("Serial: 0" + ToControl + "09");
         ReleStat[ToControl] = false;
       }
     break;
   }
+
+  //disegno dell'array di stato
+  console.log('_________________________________________________________________');
+  console.log('|   1   |   2   |   3   |   4   |   5   |   6   |   7   |   8   |');
+  console.log('| ' + ReleStat[0] +' | ' + ReleStat[1] + ' | ' + ReleStat[2] + ' | ' + ReleStat[3] + ' | ' + ReleStat[4] + ' | ' + ReleStat[5] + ' | ' + ReleStat[6] + ' | '+ ReleStat[7] + ' |');
+  console.log('|_______________________________________________________________|');
 });
 
 socket.on('Modalita', function(_Modalita){
