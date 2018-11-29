@@ -42,10 +42,11 @@ fs.readFile('./My/ReleConfig.json', 'utf8', function (err,data) {
   ReleConfig = JSON.parse(data);
 });
 
+/*
 socket.on('Start', function(_Req){
   console.log("a");
   socket.emit('a');
-});
+});*/
   
 socket.on('ToControl', function(_ToControl){
   console.log('ToControl: ' + _ToControl);
@@ -72,6 +73,7 @@ socket.on('ToDo', function(_ToDo){
           port.write(ModToControl);
           port.write('9');
         }
+        //socket.emit("ciao", "ciao");
         console.log("Serial: 0" + ToControl + "19");
         ReleStat[ToControl] = true;
       }
