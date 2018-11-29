@@ -13,7 +13,7 @@ if (Constants.SerAvailable){
   var port = new SerialPort(Constants.ComName, {
     baudRate: Constants.ComBound
   });
-  console.log(`Arduino Collegato su porta ${JSON.stringify(Constants.SerialPort)}`);
+  console.log(`Arduino Collegato su porta ${JSON.stringify(Constants.ComName)}`);
 }
 
 let AutorizedId = [];
@@ -103,8 +103,6 @@ socket.on('Color', function(_Color){
   Color = JSON.parse(_Color);
 });
 
-/*
 port.on('error', function(err) {
   console.log('Error: ', err.message);
 })
-*/
