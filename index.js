@@ -110,7 +110,9 @@ socket.on('Color', function(_Color){
   console.log('Modalita: ' + _Color);
   Color = JSON.parse(_Color);
 });
-/*
-port.on('error', function(err) {
-  console.log('Error: ', err.message);
-})*/
+
+if (SerAvailable == true){
+  port.on('error', function(err) {
+    console.log('Error: ', err.message);
+  })
+}
