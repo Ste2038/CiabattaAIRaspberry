@@ -40,13 +40,8 @@ fs.readFile('./My/ReleConfig.json', 'utf8', function (err,data) {
     return console.log(err);
   }
   ReleConfig = JSON.parse(data);
+  socket.emit('start', ReleConfig);
 });
-
-/*
-socket.on('Start', function(_Req){
-  console.log("a");
-  socket.emit('a');
-});*/
   
 socket.on('ToControl', function(_ToControl){
   console.log('ToControl: ' + _ToControl);
@@ -66,7 +61,7 @@ socket.on('ToDo', function(_ToDo){
   switch(ToDo){
     case "Accendi":
       if(!ReleStat[ToControl]){
-          if (Constants.SerAvailable){
+        if (Constants.SerAvailable){
           port.write('0');
           port.write(ToControl);
           port.write('1');
@@ -115,7 +110,7 @@ socket.on('Color', function(_Color){
   console.log('Modalita: ' + _Color);
   Color = JSON.parse(_Color);
 });
-
+/*
 port.on('error', function(err) {
   console.log('Error: ', err.message);
-})
+})*/
