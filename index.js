@@ -40,7 +40,7 @@ fs.readFile('./My/ReleConfig.json', 'utf8', function (err,data) {
     return console.log(err);
   }
   ReleConfig = JSON.parse(data);
-  socket.emit('start', ReleConfig);
+  socket.emit('start', JSON.stringify(ReleConfig));
 });
   
 socket.on('ToControl', function(_ToControl){
