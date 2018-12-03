@@ -42,7 +42,7 @@ fs.readFile('./My/ReleConfig.json', 'utf8', function (err,data) {
   ReleConfig = JSON.parse(data);
   socket.emit('start', JSON.stringify(ReleConfig));
 });
-  
+
 socket.on('ToControl', function(_ToControl){
   console.log('ToControl: ' + _ToControl);
   for (let i = 0; i < ReleConfig.length; i++){
@@ -57,7 +57,7 @@ socket.on('ToControl', function(_ToControl){
 socket.on('ToDo', function(_ToDo){
   console.log('Todo: ' + _ToDo);
   ToDo = JSON.parse(_ToDo);
-  
+
   switch(ToDo){
     case "Accendi":
       if(!ReleStat[ToControl]){
@@ -71,7 +71,7 @@ socket.on('ToDo', function(_ToDo){
 
         socket.emit("changeReleNum", ToControl);
         socket.emit("changeRelStatus", '1');
-        console.log("Serial: 0" + ToControl + "19");
+        console.log("Serial: 0" + ToControl + "1" + ModToControl + "9");
         ReleStat[ToControl] = true;
       }
     break;
