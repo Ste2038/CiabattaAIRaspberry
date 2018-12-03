@@ -33,7 +33,7 @@ for (let i = 0; i < 8; i++){
   ReleStat[i] = false;
 }
 
-var ReleConfig, ReleData;
+let ReleConfig, ReleData;
 
 fs.readFile('./My/ReleConfig.json', 'utf8', function (err,data) {
   if (err) {
@@ -88,7 +88,7 @@ socket.on('ToDo', function(_ToDo){
 
         socket.emit("changeReleNum", ToControl);
         socket.emit("changeRelStatus", '0');
-        console.log("Serial: 0" + ToControl + "09");
+        console.log("Serial: 0" + ToControl + "0" +ModToControl + "9");
         ReleStat[ToControl] = false;
       }
     break;
