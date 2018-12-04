@@ -111,7 +111,7 @@ socket.on('Color', function(_Color){
   Color = JSON.parse(_Color);
 });
 
-if (SerAvailable == true){
+if (Constants.SerAvailable == true){
   port.on('error', function(err) {
     console.log('Error: ', err.message);
   })
