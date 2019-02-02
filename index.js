@@ -1,4 +1,4 @@
-var socket = require('socket.io-client')('https://ciabattaaiheroku.herokuapp.com/');
+var socket = require('socket.io-client')('https://schoolpowerstripheroku.herokuapp.com');//https://ciabattaaiheroku.herokuapp.com/');
 var SerialPort = require('serialport');
 var fs = require('fs');
 var TelegramBot = require('node-telegram-bot-api');
