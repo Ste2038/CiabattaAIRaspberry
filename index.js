@@ -4,10 +4,14 @@ var fs = require('fs');
 var TelegramBot = require('node-telegram-bot-api');
 var Constants = require('./My/constants');
 
+const Gpio = require('onoff').Gpio;
+let LuciPin1 = new Gpio(2, 'out');
+let LuciPin2 = new Gpio(3, 'out');
+
 const option = {mode: 0o600};
 
-//const token = Constants.BotToken;
-//const bot = new TelegramBot(token, {polling: true});
+const token = "471474017:AAGAEma-9M3gQi8UT5LYZgnIeRSnwK7MxtQ";
+const bot = new TelegramBot(token, {polling: true});
 
 if (Constants.SerAvailable){
   var port = new SerialPort(Constants.ComName, {
@@ -62,12 +66,20 @@ socket.on('ToDo', function(_ToDo){
     case "Accendi":
       if(!ReleStat[ToControl]){
         if (Constants.SerAvailable){
+          /*
           port.write('0');
           port.write(ToControl);
           port.write('1');
           port.write(ModToControl);
           port.write('9');
+          */
+
+
+          
         }
+        
+        LuciPin1.writeSync(0);
+        LuciPin2.writeSync(0);
 
         socket.emit("changeReleNum", ToControl);
         socket.emit("changeRelStatus", '1');
@@ -79,13 +91,19 @@ socket.on('ToDo', function(_ToDo){
     case "Spegni":
       if(ReleStat[ToControl]){
         if (Constants.SerAvailable){
+          /*
           port.write('0');
           port.write(ToControl);
           port.write('0');
           port.write(ModToControl);
           port.write('9');
+          */
         }
 
+
+        LuciPin1.writeSync(1);
+        LuciPin2.writeSync(1);
+        
         socket.emit("changeReleNum", ToControl);
         socket.emit("changeRelStatus", '0');
         console.log("Serial: 0" + ToControl + "0" +ModToControl + "9");
